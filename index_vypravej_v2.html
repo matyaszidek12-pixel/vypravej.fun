@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vyprávěj.fun | Fanouškovský web</title>
+
+<style>
+:root{
+  --ink:#211914;
+  --ink2:#30231c;
+  --brown:#654735;
+  --brown2:#8a6044;
+  --cream:#f3ead8;
+  --cream2:#e8dbc2;
+  --paper:#fffaf1;
+  --gold:#c49a52;
+  --gold2:#e0bd78;
+  --muted:#6b5d51;
+  --red:#98443a;
+  --green:#4d624f;
+  --shadow:0 18px 50px rgba(0,0,0,.15);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,"Times New Roman",serif;background:var(--cream);color:var(--ink);line-height:1.7}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+button{cursor:pointer}
+.navbar{position:fixed;z-index:1000;top:0;left:0;right:0;background:rgba(33,25,20,.97);border-bottom:1px solid rgba(224,189,120,.22);backdrop-filter:blur(10px)}
+.nav-inner{max-width:1250px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:24px;font-weight:bold;letter-spacing:1px;color:var(--gold2)}
+.logo span{color:#fffaf0}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{color:#eadfce;padding:9px 11px;border-radius:8px;font-size:14px;transition:.2s}
+.nav-links a:hover{background:rgba(255,255,255,.08);color:var(--gold2)}
+.menu-button{display:none;border:1px solid #806b58;background:transparent;color:#fff;padding:7px 10px;border-radius:8px}
+
+.hero{min-height:760px;padding:150px 24px 100px;display:flex;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 20% 20%,rgba(224,189,120,.15),transparent 30%),radial-gradient(circle at 80% 70%,rgba(138,96,68,.22),transparent 35%),linear-gradient(135deg,#211914,#493326 55%,#211914);color:#fffaf0;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;opacity:.13;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.08) 4px);pointer-events:none}
+.hero-content{position:relative;max-width:900px}
+.kicker,.section-label{text-transform:uppercase;letter-spacing:3px;font-size:12px;font-weight:bold}
+.kicker{color:var(--gold2);margin-bottom:20px}
+.hero h1{font-size:clamp(70px,13vw,150px);line-height:.9;margin-bottom:25px;letter-spacing:-5px}
+.hero h1 span{color:var(--gold2)}
+.hero p{max-width:720px;margin:auto;color:#dfd3c2;font-size:19px}
+.hero-buttons{margin-top:35px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn{border:0;padding:13px 21px;border-radius:9px;font-weight:bold;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--gold);color:var(--ink)}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-secondary{background:transparent;border:1px solid #a99178;color:#fff}
+.btn-secondary:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+
+section{padding:95px 24px}
+.container{max-width:1180px;margin:auto}
+.section-header{max-width:800px;margin-bottom:45px}
+.section-label{color:var(--brown2);margin-bottom:10px}
+.dark-section .section-label{color:var(--gold2)}
+.section-header h2{font-size:clamp(35px,5vw,56px);line-height:1.05;margin-bottom:15px}
+.section-header p{color:var(--muted);font-size:17px}
+.dark-section{background:var(--ink);color:#fffaf0}
+.dark-section .section-header p{color:#cfc0ae}
+.alt{background:var(--cream2)}
+
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:45px;align-items:center}
+.about-text p{margin-bottom:18px;color:#54483f}
+.fact-box{background:var(--ink);color:white;padding:30px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.fact-box h3{color:var(--gold2);margin-bottom:18px}
+.fact-row{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.12);padding:12px 0}
+.fact-row:last-child{border:0}
+.fact-row strong{color:var(--gold2)}
+
+.seasons{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.season-card{background:var(--paper);border:1px solid #d8c8af;border-radius:var(--radius);padding:25px;min-height:245px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s}
+.season-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--gold)}
+.season-number{font-size:46px;font-weight:bold;color:var(--gold)}
+.season-card h3{margin:8px 0}
+.season-card p{color:#6b5d51;font-size:14px}
+.small-button{border:0;background:var(--ink);color:white;padding:9px 12px;border-radius:7px;margin-top:15px}
+.small-button:hover{background:var(--brown)}
+
+.episode-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.filter-button{border:1px solid #c9b89f;background:var(--paper);padding:10px 15px;border-radius:9px;color:var(--ink);transition:.2s}
+.filter-button.active,.filter-button:hover{background:var(--ink);color:white;border-color:var(--ink)}
+.episodes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.episode-card{background:var(--paper);border:1px solid #d8c8af;border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;transition:.2s}
+.episode-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.episode-meta{font-size:12px;color:var(--brown2);font-weight:bold;text-transform:uppercase;letter-spacing:1px}
+.episode-card h3{font-size:22px;margin:7px 0 10px}
+.episode-card p{color:#66584d;font-size:14px;flex:1}
+.episode-footer{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.duration{font-size:12px;color:#887666}
+.official-link{color:var(--brown2);font-weight:bold;font-size:13px}
+
+.characters{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.character{background:var(--paper);border-radius:var(--radius);overflow:hidden;border:1px solid #d8c8af;transition:.25s}
+.character:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.character-visual{height:170px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3d2d24,#896349);color:var(--gold2);font-size:55px;font-weight:bold}
+.character-info{padding:20px}
+.character-info h3{margin-bottom:4px}
+.actor{color:var(--brown2);font-size:14px}
+.character-info p{color:#66584d;margin-top:10px;font-size:14px}
+
+.timeline{position:relative;max-width:900px;margin:auto}
+.timeline:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:var(--gold)}
+.timeline-item{width:50%;padding:15px 40px;position:relative}
+.timeline-item:nth-child(odd){text-align:right}
+.timeline-item:nth-child(even){margin-left:50%}
+.timeline-dot{position:absolute;top:25px;width:14px;height:14px;border-radius:50%;background:var(--gold2);border:3px solid var(--ink)}
+.timeline-item:nth-child(odd) .timeline-dot{right:-7px}
+.timeline-item:nth-child(even) .timeline-dot{left:-7px}
+.timeline-card{background:#30231c;border:1px solid rgba(224,189,120,.2);padding:20px;border-radius:13px}
+.timeline-card strong{color:var(--gold2);font-size:22px}
+.timeline-card p{color:#cfc1b0;font-size:14px;margin-top:5px}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.fact-card{background:white;padding:28px;border-radius:var(--radius);border:1px solid #d9c9b1}
+.fact-icon{font-size:35px;margin-bottom:10px}
+.fact-card h3{margin-bottom:10px}
+.fact-card p{color:#6a5c50}
+
+.search-box{display:flex;gap:10px;max-width:750px;margin-bottom:25px}
+.search-box input{flex:1;padding:14px 16px;border-radius:9px;border:1px solid #cbb99f;background:white;outline:none}
+.search-box input:focus{border-color:var(--gold)}
+.search-results{display:grid;gap:10px}
+.search-result{padding:16px;border-radius:10px;background:white;border:1px solid #d7c7ae}
+.search-result strong{color:var(--brown)}
+.search-result button{border:0;background:none;color:var(--brown2);text-decoration:underline;margin-top:5px}
+
+.quiz-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:25px}
+.level-card{background:#30231c;border:1px solid rgba(224,189,120,.22);padding:20px;border-radius:14px;color:#d7c9b7}
+.level-card strong{display:block;color:var(--gold2);font-size:20px;margin-bottom:5px}
+.level-card.active{border-color:var(--gold2);box-shadow:0 0 0 2px rgba(224,189,120,.12)}
+.level-select{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}
+.level-button{background:#30231c;color:#eee;border:1px solid #665143;padding:11px 16px;border-radius:9px}
+.level-button.active{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.quiz-wrap{max-width:850px;margin:auto}
+.quiz-card{background:#30231c;border:1px solid rgba(224,189,120,.25);border-radius:20px;padding:35px;box-shadow:var(--shadow)}
+.quiz-top{display:flex;justify-content:space-between;color:#cdbca7;font-size:14px;margin-bottom:15px}
+.progress{height:7px;background:#4b392e;border-radius:20px;overflow:hidden;margin-bottom:30px}
+.progress-bar{height:100%;width:0;background:var(--gold2);transition:.3s}
+.quiz-question{color:white;font-size:28px;margin-bottom:25px}
+.answers{display:grid;gap:12px}
+.answer{width:100%;text-align:left;padding:15px 18px;background:#403128;border:1px solid #665143;border-radius:10px;color:#f7efe4;transition:.2s}
+.answer:hover:not(:disabled){border-color:var(--gold);transform:translateX(3px)}
+.answer.correct{background:#405b43;border-color:#8db191}
+.answer.wrong{background:#693d37;border-color:#bd8178}
+.answer:disabled{cursor:default}
+.quiz-feedback{min-height:58px;padding-top:18px;color:#e8dbc9}
+.quiz-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:15px;color:#bcae9e}
+.next-button{border:0;background:var(--gold);color:var(--ink);padding:11px 18px;border-radius:8px;font-weight:bold;display:none}
+.next-button:hover{background:var(--gold2)}
+.quiz-result{text-align:center;display:none}
+.quiz-result .score{font-size:80px;color:var(--gold2);font-weight:bold;line-height:1;margin:20px 0}
+.quiz-result h3{font-size:30px;color:white;margin-bottom:10px}
+.quiz-result p{color:#d3c4b2;margin-bottom:25px}
+
+.modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.72);align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{max-width:680px;width:100%;max-height:85vh;overflow:auto;background:var(--cream);border-radius:18px;padding:35px;position:relative;box-shadow:0 30px 100px rgba(0,0,0,.35)}
+.modal-close{position:absolute;top:15px;right:15px;border:0;background:var(--ink);color:white;width:34px;height:34px;border-radius:50%}
+.modal-box h2{margin-bottom:10px}
+.modal-box p{color:#66584d}
+.modal-meta{margin-top:20px;padding-top:15px;border-top:1px solid #d6c5ac;color:var(--brown2);font-weight:bold}
+
+.cta{text-align:center;background:linear-gradient(rgba(33,25,20,.9),rgba(33,25,20,.9)),radial-gradient(circle at center,#79573d,#211914);color:white}
+.cta h2{font-size:clamp(38px,6vw,65px);margin-bottom:15px}
+.cta p{color:#d5c7b5;max-width:650px;margin:auto}
+footer{background:#17110e;color:#aa9b8b;padding:35px 24px}
+.footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap}
+.footer-brand{color:var(--gold2);font-weight:bold}
+.footer-note{font-size:13px}
+
+@media(max-width:1000px){
+  .seasons{grid-template-columns:repeat(3,1fr)}
+  .episodes{grid-template-columns:repeat(2,1fr)}
+  .characters{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .nav-links{display:none;position:absolute;top:61px;left:0;right:0;background:var(--ink);padding:10px 20px 20px;flex-direction:column;align-items:stretch}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:13px}
+  .menu-button{display:block}
+  .hero{min-height:680px;padding-top:120px}
+  .hero h1{letter-spacing:-3px}
+  section{padding:70px 18px}
+  .seasons,.episodes,.characters,.facts,.quiz-intro{grid-template-columns:1fr}
+  .timeline:before{left:8px}
+  .timeline-item,.timeline-item:nth-child(even){width:100%;margin-left:0;padding-left:35px;padding-right:0;text-align:left}
+  .timeline-item:nth-child(odd){text-align:left}
+  .timeline-item:nth-child(odd) .timeline-dot,.timeline-item:nth-child(even) .timeline-dot{left:1px;right:auto}
+  .quiz-card{padding:22px}
+  .quiz-question{font-size:22px}
+  .quiz-bottom{flex-direction:column;align-items:stretch;gap:15px}
+  .next-button{width:100%}
+  .search-box{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#domu" class="logo">vypravej<span>.fun</span></a>
+    <button class="menu-button" id="menuButton">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#o-serialu">O seriálu</a>
+      <a href="#rady">Řady</a>
+      <a href="#epizody">Epizody</a>
+      <a href="#postavy">Postavy</a>
+      <a href="#casova-osa">Časová osa</a>
+      <a href="#zajimavosti">Zajímavosti</a>
+      <a href="#kviz">Kvíz</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="domu">
+  <div class="hero-content">
+    <div class="kicker">Neoficiální fanouškovský web</div>
+    <h1>Vyprávěj<span>.</span></h1>
+    <p>
+      Příběh rodiny Dvořákových, který začíná v roce 1964
+      a prochází několika desetiletími československých
+      a českých dějin. Rodina, vztahy, humor, velké události
+      i úplně obyčejné starosti.
+    </p>
+    <div class="hero-buttons">
+      <a href="#o-serialu" class="btn btn-primary">Prozkoumat seriál</a>
+      <a href="#kviz" class="btn btn-secondary">Vyzkoušet kvíz</a>
+    </div>
+  </div>
+</header>
+
+<section id="o-serialu">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">O seriálu</div>
+      <h2>Rodina Dvořákových a několik desetiletí života.</h2>
+      <p>
+        Vyprávěj spojuje rodinný příběh s událostmi, které měnily
+        Československo a později Českou republiku.
+      </p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Příběh začíná v září roku 1964. Karel potřebuje zvládnout
+          důležitou zkoušku, ale setkání s Evou mu změní plány.
+          Z obyčejného seznámení postupně vzniká dlouhé rodinné
+          vyprávění, ve kterém se střídají radosti, konflikty,
+          láska, rodinné oslavy i těžší životní situace.
+        </p>
+        <p>
+          Seriál je zajímavý především tím, že velké historické
+          události neukazuje pouze jako data z učebnic. Sleduje,
+          jak se promítají do každodenního života konkrétních lidí:
+          do práce, vztahů, bydlení, cestování, rodinných rozhodnutí
+          nebo třeba do toho, co se dá a nedá sehnat v obchodě.
+        </p>
+        <p>
+          Důležitou součástí jsou také generační rozdíly. Starší
+          členové rodiny mají vlastní zkušenosti a vzpomínky,
+          zatímco mladší postavy postupně hledají svou vlastní cestu.
+          Díky tomu se rodinný příběh postupně rozrůstá o nové
+          postavy a vztahy.
+        </p>
+      </div>
+
+      <div class="fact-box">
+        <h3>Rychlá fakta</h3>
+        <div class="fact-row"><span>Začátek příběhu</span><strong>1964</strong></div>
+        <div class="fact-row"><span>Hlavní období</span><strong>1964–2005</strong></div>
+        <div class="fact-row"><span>Řady</span><strong>5</strong></div>
+        <div class="fact-row"><span>Režie</span><strong>Biser A. Arichtev</strong></div>
+        <div class="fact-row"><span>Scénář</span><strong>Rudolf Merkner</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="rady">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Řady</div>
+      <h2>Pět etap jednoho dlouhého příběhu.</h2>
+      <p>
+        Řady postupně posouvají rodinu od šedesátých let přes
+        normalizaci a společenské změny až k porevolučnímu období.
+      </p>
+    </div>
+
+    <div class="seasons">
+      <article class="season-card">
+        <div><div class="season-number">01</div><h3>I. řada</h3>
+        <p>Začátek příběhu v roce 1964. Karel poznává Evu, vznikají nové vztahy a rodina se postupně rozrůstá.</p></div>
+        <button class="small-button" onclick="openModal('I. řada','První řada představuje hlavní postavy a jejich vztahy. Příběh začíná v roce 1964 a postupně se dostává až k událostem roku 1968. Vedle rodinných vztahů sledujeme také práci, bydlení, studium a každodenní život.','26 epizod')">Více</button>
+      </article>
+
+      <article class="season-card">
+        <div><div class="season-number">02</div><h3>II. řada</h3>
+        <p>Rodina vstupuje do sedmdesátých let. Přicházejí nové vztahy, děti, rodinné konflikty i změny v životě postav.</p></div>
+        <button class="small-button" onclick="openModal('II. řada','Druhá řada se odehrává v sedmdesátých letech. Karel, Eva a jejich blízcí řeší rodinné i osobní problémy a seriál více rozvíjí další generaci postav.','16 epizod')">Více</button>
+      </article>
+
+      <article class="season-card">
+        <div><div class="season-number">03</div><h3>III. řada</h3>
+        <p>Na konci sedmdesátých a v průběhu osmdesátých let se vztahy komplikují a přicházejí další zásadní životní změny.</p></div>
+        <button class="small-button" onclick="openModal('III. řada','Třetí řada přináší konec sedmdesátých let a pokračuje do období osmdesátých let. Karel a Eva čelí novým problémům a mladší postavy stále více dostávají vlastní prostor.','26 epizod')">Více</button>
+      </article>
+
+      <article class="season-card">
+        <div><div class="season-number">04</div><h3>IV. řada</h3>
+        <p>Rodinný příběh pokračuje v dalších společenských proměnách a postavy řeší nové životní kapitoly.</p></div>
+        <button class="small-button" onclick="openModal('IV. řada','Čtvrtá řada posouvá příběh dál a ještě více propojuje rodinné osudy s proměnami společnosti. Postavy vstupují do dalších životních etap.','26 epizod')">Více</button>
+      </article>
+
+      <article class="season-card">
+        <div><div class="season-number">05</div><h3>V. řada</h3>
+        <p>Finální část hlavního vyprávění. Některé příběhy se uzavírají, jiné dostávají nový začátek.</p></div>
+        <button class="small-button" onclick="openModal('V. řada','Pátá řada směřuje k uzavření hlavního příběhu. Finále pracuje s tématem loučení, změn a nových začátků.','26 epizod')">Více</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="epizody">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Epizody</div>
+      <h2>Vybrané díly trochu podrobněji.</h2>
+      <p>
+        Tady už nechceme jen názvy. U jednotlivých dílů najdeš
+        dějový popis, řadu, číslo epizody a odkaz na oficiální stránku ČT.
+      </p>
+    </div>
+
+    <div class="episode-toolbar">
+      <button class="filter-button active" data-season="all">Vše</button>
+      <button class="filter-button" data-season="1">I. řada</button>
+      <button class="filter-button" data-season="2">II. řada</button>
+      <button class="filter-button" data-season="3">III. řada</button>
+    </div>
+
+    <div class="episodes" id="episodeGrid"></div>
+  </div>
+</section>
+
+<section class="alt" id="postavy">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Postavy</div>
+      <h2>Nejen jméno a herec. Tohle jsou jejich příběhy.</h2>
+      <p>
+        Hlavní postavy se během seriálu mění, stárnou, řeší vztahy,
+        práci, rodinu i společenské změny. Klikni na detail.
+      </p>
+    </div>
+
+    <div class="characters" id="characterGrid"></div>
+  </div>
+</section>
+
+<section class="dark-section" id="casova-osa">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Časová osa</div>
+      <h2>Od šedesátek až po nové tisíciletí.</h2>
+      <p>
+        Seriál využívá skutečné historické události jako kulisu
+        pro osobní příběhy svých postav.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>1964</strong><p>Začíná příběh Karla a Evy. Právě jejich setkání odstartuje několik desetiletí rodinného vyprávění.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>1968</strong><p>Do života rodiny zasáhnou srpnové události a příjezd okupačních vojsk.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>70. léta</strong><p>Rodina se rozrůstá a příběh se přesouvá do období normalizace. Přicházejí nové vztahy i nové problémy.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>80. léta</strong><p>Mladší generace dospívá a jednotlivé postavy začínají řešit stále samostatnější životní rozhodnutí.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>1989</strong><p>Sametová revoluce znamená zásadní společenský zlom a mění také možnosti a plány jednotlivých postav.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>1990s</strong><p>Rodinný příběh pokračuje v nových společenských podmínkách a postavy se musí vyrovnat s dalšími změnami.</p></div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-card"><strong>2005</strong><p>Hlavní vyprávění rodiny Dvořákových směřuje ke svému uzavření.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="zajimavosti">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Zajímavosti</div>
+      <h2>Co stojí za pozornost.</h2>
+      <p>Seriál není jen příběh postav. Zajímavé je i samotné natáčení a práce tvůrců.</p>
+    </div>
+
+    <div class="facts">
+      <article class="fact-card"><div class="fact-icon">🎬</div><h3>Dlouhé natáčení</h3><p>Vyprávěj se natáčelo několik let a herci během projektu přirozeně procházeli různými životními obdobími svých postav.</p></article>
+      <article class="fact-card"><div class="fact-icon">🎭</div><h3>Čtyři Honzové</h3><p>Honzu Dvořáka v různých obdobích ztvárnili Matěj Hádek, Branislav Holiček, Jiří Novák a Zdeněk Piškula.</p></article>
+      <article class="fact-card"><div class="fact-icon">🎥</div><h3>Bonusová videa</h3><p>Česká televize zveřejnila řadu bonusů o seriálu, například o kostýmech, maskách, lokacích, střihu nebo samotném natáčení.</p></article>
+      <article class="fact-card"><div class="fact-icon">📺</div><h3>Historie v pozadí</h3><p>Události jako rok 1968 nebo rok 1989 nejsou pouze dekorací. Mají přímý dopad na životní rozhodnutí postav.</p></article>
+      <article class="fact-card"><div class="fact-icon">🎞️</div><h3>Seriálové bonusy</h3><p>Vznikly také medailonky hlavních postav a rozhovory s herci, scenáristou i režisérem.</p></article>
+      <article class="fact-card"><div class="fact-icon">❤️</div><h3>Rodinný příběh</h3><p>Vedle historických událostí zůstávají v centru vztahy mezi lidmi: partnerství, rodičovství, přátelství, konflikty i smíření.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Vyhledávání</div>
+      <h2>Najdi postavu, rok nebo epizodu.</h2>
+      <p>Zkus třeba „Karel“, „Eva“, „1968“, „Svatba“ nebo „Honza“.</p>
+    </div>
+
+    <div class="search-box">
+      <input type="search" id="searchInput" placeholder="Co hledáš?" autocomplete="off">
+      <button class="btn btn-primary" onclick="performSearch()">Hledat</button>
+    </div>
+    <div id="searchResults" class="search-results"></div>
+  </div>
+</section>
+
+<section class="dark-section" id="kviz">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Fanouškovský kvíz</div>
+      <h2>Teď už pořádně.</h2>
+      <p>Vyber si obtížnost. Každá má vlastní sadu otázek a deset otázek.</p>
+    </div>
+
+    <div class="quiz-intro">
+      <div class="level-card active" id="levelInfoEasy"><strong>Lehká</strong>Postavy, základní fakta a začátek příběhu.</div>
+      <div class="level-card" id="levelInfoMedium"><strong>Střední</strong>Epizody, dějové souvislosti a historie.</div>
+      <div class="level-card" id="levelInfoHard"><strong>Těžká</strong>Detailní znalost seriálu pro opravdové fanoušky.</div>
+    </div>
+
+    <div class="level-select">
+      <button class="level-button active" data-level="easy">🟢 Lehká</button>
+      <button class="level-button" data-level="medium">🟡 Střední</button>
+      <button class="level-button" data-level="hard">🔴 Těžká</button>
+    </div>
+
+    <div class="quiz-wrap">
+      <div class="quiz-card">
+        <div class="quiz-top">
+          <span id="questionNumber">Otázka 1 / 10</span>
+          <span id="scoreText">Skóre: 0</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+        <div id="quizContent">
+          <h3 class="quiz-question" id="question"></h3>
+          <div class="answers" id="answers"></div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+          <div class="quiz-bottom">
+            <span id="hint">Vyber jednu odpověď.</span>
+            <button class="next-button" id="nextButton">Další otázka →</button>
+          </div>
+        </div>
+
+        <div class="quiz-result" id="quizResult">
+          <div>KONEČNÉ SKÓRE</div>
+          <div class="score" id="finalScore">0/10</div>
+          <h3 id="resultTitle">Výsledek</h3>
+          <p id="resultText"></p>
+          <button class="btn btn-primary" onclick="restartQuiz()">Zkusit znovu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Chceš pokračovat ve sledování?</h2>
+    <p>Oficiální stránky seriálu a přehrávání najdeš na iVysílání České televize.</p>
+    <div class="hero-buttons">
+      <a href="https://www.ceskatelevize.cz/porady/10195164142-vypravej/" target="_blank" rel="noopener" class="btn btn-primary">Oficiální iVysílání →</a>
+      <a href="#epizody" class="btn btn-secondary">Prohlédnout epizody</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-brand">vypravej.fun</div><div class="footer-note">Neoficiální fanouškovský web seriálu Vyprávěj.</div></div>
+    <div class="footer-note">Fanouškovský projekt • Obsah seriálu patří jeho držitelům práv.</div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle">Detail</h2>
+    <p id="modalText"></p>
+    <div class="modal-meta" id="modalMeta"></div>
+  </div>
+</div>
+
+<script>
+const episodes = [
+  {season:1, number:"1/26", title:"Od začátku", duration:"53 min", text:"Píše se září roku 1964. Karel potřebuje udělat rozhodující zkoušku, ale díky seznámení s krásnou studentkou prvního ročníku Evou se celá situace zkomplikuje.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"2/26", title:"Je to ten pravý?", duration:"52 min", text:"Evu s Karlem čeká velké překvapení. Jejich vztah se dostává do nové situace a oba musí řešit, jak se s nenadálou změnou vypořádat.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"3/26", title:"Svatba", duration:"52 min", text:"Karel a Eva se stěhují do nového bytu. Josef něco Janě tají a rodinné vztahy dostávají další rozměr.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/208522161400003/"},
+  {season:1, number:"4/26", title:"1. Máj", duration:"52 min", text:"Malý Honzík má problémy ve školce. Karel se nechá přemluvit a přihlásí svůj projekt do univerzitní soutěže.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"5/26", title:"Mikuláš chodí v létě", duration:"52 min", text:"Do Čech zavítá strýc Mikuláš z Rakouska. Všichni mají radost, až na Josefa, kterému jeho příjezd přináší vlastní komplikace.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"6/26", title:"Embéčko!", duration:"52 min", text:"Evu a Karla čeká věrnostní zkouška. Josef si zároveň jede pro svůj nový automobil a události nabírají vlastní směr.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"7/26", title:"21. srpen", duration:"53 min", text:"Píše se rok 1968 a do Československa přijíždějí okupační vojska. Historická událost výrazně zasáhne i do života rodiny.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"8/26", title:"Velká očekávání", duration:"52 min", text:"Josefa čeká oslava narozenin a možná také jeho povýšení. Rodina řeší osobní očekávání i pracovní ambice.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"9/26", title:"Ode mě to nemáte!", duration:"52 min", text:"Josef musí čelit udání za rozkrádání socialistického majetku a Tonda řeší možné vyloučení ze školy.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:1, number:"10/26", title:"Promoce", duration:"52 min", text:"Josefa kontaktují příslušníci StB. Veronika zároveň Evě něco tají a rodinné vztahy se dostávají pod tlak.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:2, number:"1/16", title:"Sedmdesátá léta", duration:"52 min", text:"Osudy rodiny Dvořákových a jejich přátel se tentokrát odehrávají v období sedmdesátých let. Seriál vstupuje do další historické etapy.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/210522161400001/"},
+  {season:2, number:"2/16", title:"DDR", duration:"53 min", text:"Karel, Eva a Honzík jedou poprvé na dovolenou k moři. Rodinný výlet přináší další zkušenosti a vzpomínky.", url:"https://www.ceskatelevize.cz/ivysilani/10195164142-vypravej/210522161400002-ddr/titulky"},
+  {season:2, number:"3/16", title:"Teta Renáta", duration:"52 min", text:"Do života Karla a Evy vstupuje Karlova sestřenice Renáta. Nová postava přináší do rodinných vztahů další energii.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:2, number:"5/16", title:"Dámská jízda", duration:"52 min", text:"Má Karel poměr se sekretářkou Martinkou? Je Eva Karlovi nevěrná? A proč Jana vyrazí na hory, když nelyžuje?", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:2, number:"8/16", title:"Osvobození", duration:"53 min", text:"Tonda se vrací z vězení. Otázkou zůstává, zda budou konečně se Zuzkou a malou Majdou skutečná rodina.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:2, number:"9/16", title:"Svatba", duration:"52 min", text:"Svatba Tondy a Zuzky je v ohrožení. Rodinné vztahy a rozhodnutí jednotlivých postav se dostávají do popředí.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:3, number:"1/26", title:"Na rozcestí", duration:"53 min", text:"Do života Karla a Evy výrazně zasáhne nevěra. Úvodní díl třetí řady se odehrává na konci sedmdesátých let.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/211522161400001/"},
+  {season:3, number:"2/26", title:"Dovolená", duration:"52 min", text:"Eva s Honzíkem se ocitají na Slovensku. Otázkou je, zda tam zůstanou natrvalo, nebo se vrátí zpět.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"},
+  {season:3, number:"3/26", title:"Lampionový průvod", duration:"52 min", text:"Eva se vrací ze Slovenska a rodina musí reagovat na změny, které její odjezd a návrat přinesly.", url:"https://www.ceskatelevize.cz/porady/10195164142-vypravej/"}
+];
+
+const characters = [
+  {initial:"K", name:"Karel Dvořák", actor:"Roman Vojtek", text:"Karel patří k úplně nejdůležitějším postavám seriálu. Na začátku příběhu je mladý muž, který se snaží zvládnout školu a zároveň se seznamuje s Evou. Jejich vztah se postupně stává jednou z hlavních dějových linií. Karel během let řeší práci, rodinu, partnerské problémy i tlak doby. Jeho životní cesta je jedním z hlavních způsobů, jak seriál ukazuje proměnu společnosti.",meta:"Hraje Roman Vojtek"},
+  {initial:"E", name:"Eva Dvořáková", actor:"Andrea Kerestešová", text:"Eva se s Karlem seznamuje na začátku příběhu a postupně se stává jeho partnerkou a manželkou. Její život není pouze doplněním Karlova příběhu – sama prochází řadou důležitých rozhodnutí, změn a osobních konfliktů. V průběhu seriálu sledujeme její vztahy, rodinný život, práci i to, jak se mění její pohled na svět.",meta:"Hraje Andrea Kerestešová"},
+  {initial:"J", name:"Jana Dvořáková", actor:"Veronika Freimanová", text:"Jana představuje jednu z výrazných postav starší generace rodiny. Její příběh je silně spojený s Josefem a s fungováním celé rodiny. Dokáže být energická, praktická i emotivní a během seriálu se dostává do řady situací, které prověří její vztahy s nejbližšími.",meta:"Hraje Veronika Freimanová"},
+  {initial:"J", name:"Josef Dvořák", actor:"Svatopluk Skopal", text:"Josef je výraznou postavou starší generace. Jeho pracovní život, rodinné vztahy a osobní názory často narážejí na změny doby. Seriál prostřednictvím Josefa ukazuje také atmosféru normalizace, pracovní prostředí a situace, kdy člověk musí řešit věci, které přesahují jeho vlastní rodinu.",meta:"Hraje Svatopluk Skopal"},
+  {initial:"B", name:"Babička Běta", actor:"Nina Divíšková", text:"Babička Běta patří k postavám, které dávají rodinnému prostředí seriálu výraznou atmosféru. Její přítomnost propojuje různé generace a připomíná, že rodinné vztahy nejsou jen o hlavní dvojici Karla a Evy.",meta:"Hraje Nina Divíšková"},
+  {initial:"H", name:"Honza Dvořák", actor:"Matěj Hádek • Branislav Holiček • Jiří Novák • Zdeněk Piškula", text:"Honza prochází v seriálu výrazným věkovým vývojem, a proto ho v různých obdobích hráli čtyři herci. Jeho život se postupně odvíjí od dětských let přes dospívání až k dospělosti. Právě na Honzovi je dobře vidět, jak se mění jednotlivé generace a jejich možnosti.",meta:"Čtyři představitelé"},
+  {initial:"T", name:"Tonda Sova", actor:"Jaromír Nosek", text:"Tonda patří mezi postavy, které mají silné vazby na mladší generaci a zároveň se dostávají do situací s vážnějšími následky. Jeho vztah se Zuzkou a pozdější rodinné problémy patří mezi výrazné vedlejší dějové linie.",meta:"Hraje Jaromír Nosek"},
+  {initial:"Z", name:"Zuzka Sovová", actor:"Hana Vagnerová • Andrea Nováková", text:"Zuzka, rozená Dvořáková, patří k mladší generaci. Její život se postupně propojí s Tondou Sovou a seriál sleduje jejich vztah, rodinné plány i komplikace, které do jejich života přicházejí.",meta:"Hrají Hana Vagnerová a Andrea Nováková"},
+  {initial:"R", name:"Radim Dvořák", actor:"David Prachař", text:"Radim patří mezi další členy širší rodiny Dvořákových. Jeho přítomnost rozšiřuje rodinný svět seriálu a ukazuje, že příběh nestojí jen na jednom domě a několika postavách.",meta:"Hraje David Prachař"}
+];
+
+const quizSets = {
+  easy:[
+    ["V jakém roce začíná příběh seriálu?","1964",["1958","1964","1968","1971"]],
+    ["Kdo hraje Karla Dvořáka?","Roman Vojtek",["Svatopluk Skopal","Roman Vojtek","David Prachař","Jaromír Nosek"]],
+    ["Kdo hraje Evu Dvořákovou?","Andrea Kerestešová",["Veronika Freimanová","Nina Divíšková","Andrea Kerestešová","Hana Vagnerová"]],
+    ["Kdo hraje Josefa Dvořáka?","Svatopluk Skopal",["Svatopluk Skopal","Roman Vojtek","Radoslav Brzobohatý","Pavel Trávníček"]],
+    ["Jak se jmenuje první epizoda?","Od začátku",["Svatba","21. srpen","Od začátku","Sedmdesátá léta"]],
+    ["Kdo hraje Janu Dvořákovou?","Veronika Freimanová",["Veronika Freimanová","Veronika Žilková","Lucie Štěpánková","Mahulena Bočanová"]],
+    ["Kolik epizod má první řada?","26",["20","24","26","30"]],
+    ["Kdo režíroval Vyprávěj?","Biser A. Arichtev",["Rudolf Merkner","Biser A. Arichtev","Jan Hřebejk","Dušan Klein"]],
+    ["Jak se jmenuje speciální série věnovaná osudům postav?","Osudy",["Vzpomínky","Osudy","Druhá kapitola","Po letech"]],
+    ["Který rok je spojen s příjezdem okupačních vojsk?","1968",["1964","1968","1975","1989"]]
+  ],
+  medium:[
+    ["Co Karel potřebuje zvládnout v prvním díle?","Rozhodující zkoušku",["Rozhodující zkoušku","Řidičské zkoušky","Povýšení","Promoci"]],
+    ["Co se stane ve 3. díle Svatba?","Karel a Eva se stěhují do nového bytu",["Karel odjíždí do zahraničí","Karel a Eva se stěhují do nového bytu","Josef odchází do důchodu","Honza nastupuje do školy"]],
+    ["Jak se jmenuje 7. díl první řady?","21. srpen",["Velká očekávání","21. srpen","Promoce","Embéčko!"]],
+    ["Co řeší Josef v díle Ode mě to nemáte!?","Udání za rozkrádání socialistického majetku",["Rozvod","Udání za rozkrádání socialistického majetku","Stěhování","Zkoušku"]],
+    ["Kam jede rodina v díle DDR?","K moři",["Na hory","K moři","Do Moskvy","Na Slovensko"]],
+    ["Kdo se vrací z vězení v díle Osvobození?","Tonda",["Karel","Josef","Tonda","Radim"]],
+    ["Co se stane ve 3. řadě v díle Na rozcestí?","Do života Karla a Evy zasáhne nevěra",["Karel odjede do Rakouska","Do života Karla a Evy zasáhne nevěra","Josef se ožení","Honza maturuje"]],
+    ["Kolik epizod má druhá řada?","16",["12","16","20","26"]],
+    ["Kdo hraje Tondou Sovu?","Jaromír Nosek",["David Prachař","Jaromír Nosek","Pavel Trávníček","Štěpán Benoni"]],
+    ["Jaké období zachycuje začátek druhé řady?","Sedmdesátá léta",["Padesátá léta","Šedesátá léta","Sedmdesátá léta","Devadesátá léta"]]
+  ],
+  hard:[
+    ["Kolik různých herců ztvárnilo Honzu Dvořáka?","4",["2","3","4","5"]],
+    ["Která herečka hraje Babičku Bětu?","Nina Divíšková",["Hana Vagnerová","Nina Divíšková","Mahulena Bočanová","Lucie Štěpánková"]],
+    ["Kdo napsal scénář seriálu?","Rudolf Merkner",["Biser A. Arichtev","Rudolf Merkner","David Prachař","Roman Vojtek"]],
+    ["Kdo hraje Radima Dvořáka?","David Prachař",["David Prachař","Svatopluk Skopal","Radoslav Brzobohatý","Pavel Trávníček"]],
+    ["Která postava se v díle Teta Renáta dostává do života Karla a Evy?","Karlova sestřenice Renáta",["Karlova dcera","Karlova sestřenice Renáta","Eviná sestra","Josefova kolegyně"]],
+    ["Co se řeší v díle Dámská jízda?","Karel, Eva a otázky věrnosti",["Josefův automobil","Karel, Eva a otázky věrnosti","Honzíkova školka","Promoce"]],
+    ["Kdo ztvárnil Honzu v různých obdobích?","Matěj Hádek, Branislav Holiček, Jiří Novák a Zdeněk Piškula",["Jen Roman Vojtek","Matěj Hádek, Branislav Holiček, Jiří Novák a Zdeněk Piškula","Jen Jiří Novák a Zdeněk Piškula","David Prachař a Štěpán Benoni"]],
+    ["Jak se jmenuje 13. díl druhé řady?","Volby",["Volby","Osvobození","Kotva","Porod"]],
+    ["Který díl první řady se odehrává v roce 1968?","21. srpen",["1. Máj","21. srpen","Promoce","Velká očekávání"]],
+    ["Jak se jmenuje první díl třetí řady?","Na rozcestí",["Na rozcestí","Dovolená","Lampionový průvod","Sedmdesátá léta"]]
+  ]
+};
+
+const menuButton=document.getElementById("menuButton");
+const navLinks=document.getElementById("navLinks");
+menuButton.addEventListener("click",()=>navLinks.classList.toggle("open"));
+document.querySelectorAll(".nav-links a").forEach(a=>a.addEventListener("click",()=>navLinks.classList.remove("open")));
+
+function openModal(title,text,meta){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalText").textContent=text;
+  document.getElementById("modalMeta").textContent=meta||"";
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+function closeModalOutside(e){if(e.target.id==="modal")closeModal()}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+function renderEpisodes(season="all"){
+  const grid=document.getElementById("episodeGrid");
+  grid.innerHTML="";
+  episodes.filter(e=>season==="all"||String(e.season)===String(season)).forEach(e=>{
+    const card=document.createElement("article");
+    card.className="episode-card";
+    card.innerHTML=`
+      <div class="episode-meta">${e.season}. řada • ${e.number}</div>
+      <h3>${e.title}</h3>
+      <p>${e.text}</p>
+      <div class="episode-footer">
+        <span class="duration">${e.duration}</span>
+        <button class="small-button" type="button">Detail</button>
+      </div>
+    `;
+    card.querySelector("button").addEventListener("click",()=>openModal(`${e.season}. řada • ${e.title}`,e.text,`${e.number} • ${e.duration}`));
+    grid.appendChild(card);
+  });
+}
+renderEpisodes();
+
+document.querySelectorAll(".filter-button").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".filter-button").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+    renderEpisodes(button.dataset.season);
+  });
+});
+
+function renderCharacters(){
+  const grid=document.getElementById("characterGrid");
+  grid.innerHTML="";
+  characters.forEach(c=>{
+    const card=document.createElement("article");
+    card.className="character";
+    card.innerHTML=`
+      <div class="character-visual">${c.initial}</div>
+      <div class="character-info">
+        <h3>${c.name}</h3>
+        <div class="actor">${c.actor}</div>
+        <p>${c.text}</p>
+        <button class="small-button" type="button">Číst celý profil</button>
+      </div>
+    `;
+    card.querySelector("button").addEventListener("click",()=>openModal(c.name,c.text,c.meta));
+    grid.appendChild(card);
+  });
+}
+renderCharacters();
+
+const searchData=[
+  ...characters.map(c=>({title:c.name,text:c.text,target:"#postavy"})),
+  ...episodes.map(e=>({title:e.title,text:e.text,target:"#epizody"})),
+  {title:"1964",text:"Začátek hlavního příběhu.",target:"#casova-osa"},
+  {title:"1968",text:"Události srpna 1968.",target:"#casova-osa"},
+  {title:"1989",text:"Sametová revoluce.",target:"#casova-osa"},
+  {title:"Kvíz",text:"Tři obtížnosti a deset otázek v každé.",target:"#kviz"}
+];
+
+function performSearch(){
+  const input=document.getElementById("searchInput").value.trim().toLowerCase();
+  const results=document.getElementById("searchResults");
+  results.innerHTML="";
+  if(!input){results.innerHTML='<div class="search-result">Napiš něco do vyhledávání.</div>';return}
+  const matches=searchData.filter(x=>(x.title+" "+x.text).toLowerCase().includes(input)).slice(0,12);
+  if(!matches.length){results.innerHTML='<div class="search-result">Nic jsme nenašli. Zkus jiné slovo.</div>';return}
+  matches.forEach(x=>{
+    const div=document.createElement("div");
+    div.className="search-result";
+    div.innerHTML=`<strong>${x.title}</strong><br>${x.text}<br><button type="button">Zobrazit na webu →</button>`;
+    div.querySelector("button").addEventListener("click",()=>document.querySelector(x.target).scrollIntoView({behavior:"smooth"}));
+    results.appendChild(div);
+  });
+}
+document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")performSearch()});
+
+let level="easy", questions=[], currentQuestion=0, score=0, answered=false;
+const questionEl=document.getElementById("question");
+const answersEl=document.getElementById("answers");
+const feedbackEl=document.getElementById("quizFeedback");
+const nextButton=document.getElementById("nextButton");
+const questionNumber=document.getElementById("questionNumber");
+const scoreText=document.getElementById("scoreText");
+const progressBar=document.getElementById("progressBar");
+const quizContent=document.getElementById("quizContent");
+const quizResult=document.getElementById("quizResult");
+
+function prepareQuestions(){
+  questions=quizSets[level].map(item=>{
+    const [question,correct,options]=item;
+    const shuffled=[...options].sort(()=>Math.random()-.5);
+    return {question,correct,options:shuffled};
+  });
+}
+function loadQuestion(){
+  answered=false;
+  const q=questions[currentQuestion];
+  questionNumber.textContent=`Otázka ${currentQuestion+1} / ${questions.length}`;
+  scoreText.textContent=`Skóre: ${score}`;
+  progressBar.style.width=`${(currentQuestion/questions.length)*100}%`;
+  questionEl.textContent=q.question;
+  answersEl.innerHTML="";
+  feedbackEl.textContent="";
+  nextButton.style.display="none";
+  q.options.forEach(option=>{
+    const b=document.createElement("button");
+    b.className="answer";
+    b.textContent=option;
+    b.addEventListener("click",()=>selectAnswer(option,b));
+    answersEl.appendChild(b);
+  });
+}
+function selectAnswer(answer,button){
+  if(answered)return;
+  answered=true;
+  const q=questions[currentQuestion];
+  document.querySelectorAll(".answer").forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.correct)b.classList.add("correct");
+  });
+  if(answer===q.correct){
+    score++;
+    button.classList.add("correct");
+    feedbackEl.textContent="✓ Správně!";
+  }else{
+    button.classList.add("wrong");
+    feedbackEl.textContent=`✕ Špatně. Správná odpověď je: ${q.correct}`;
+  }
+  scoreText.textContent=`Skóre: ${score}`;
+  nextButton.style.display="block";
+}
+nextButton.addEventListener("click",()=>{
+  currentQuestion++;
+  if(currentQuestion>=questions.length)finishQuiz();
+  else loadQuestion();
+});
+function finishQuiz(){
+  quizContent.style.display="none";
+  quizResult.style.display="block";
+  progressBar.style.width="100%";
+  document.getElementById("finalScore").textContent=`${score}/${questions.length}`;
+  let title="",text="";
+  if(score<=3){title="Začátečník";text="Seriál teprve objevuješ. Dej si další pokus."}
+  else if(score<=6){title="Fanoušek";text="Dobrá práce. Základní svět Vyprávěj už máš v malíku."}
+  else if(score<=8){title="Velký fanoušek";text="Tohle už je velmi slušná znalost seriálu."}
+  else if(score===9){title="Dvořákovic znalec";text="Skoro dokonalé. Chyběl jediný krok k úplnému vítězství."}
+  else{title="Dvořákovic kronikář";text="10/10! Tohle je výkon opravdového fanouška Vyprávěj."}
+  document.getElementById("resultTitle").textContent=title;
+  document.getElementById("resultText").textContent=text;
+}
+function restartQuiz(){
+  currentQuestion=0;score=0;
+  quizContent.style.display="block";
+  quizResult.style.display="none";
+  prepareQuestions();
+  loadQuestion();
+}
+document.querySelectorAll(".level-button").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".level-button").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+    level=button.dataset.level;
+    document.querySelectorAll(".level-card").forEach(c=>c.classList.remove("active"));
+    document.getElementById("levelInfo"+level.charAt(0).toUpperCase()+level.slice(1)).classList.add("active");
+    restartQuiz();
+  });
+});
+prepareQuestions();
+loadQuestion();
+</script>
+</body>
+</html>
