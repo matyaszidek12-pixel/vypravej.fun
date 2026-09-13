@@ -1,1 +1,39 @@
-<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kvíz — Vyprávěj</title><link rel="stylesheet" href="css/style.css"></head><body><div class="topline"></div><header><nav class="nav"><a class="brand" href="index.html">VYPRÁVĚJ<small>FANOUŠKOVSKÝ WEB</small></a><div class="navlinks"><a href="serial.html">Seriál</a><a href="rady.html">Řady</a><a href="epizody.html">Epizody</a><a href="postavy.html">Postavy</a><a href="timeline.html">Časová osa</a><a href="zajimavosti.html">Zajímavosti</a><a href="bonusy.html">Bonusy</a><a href="kviz.html">Kvíz</a></div></nav></header><main><section class="section"><div class="container"><div class="eyebrow">15 náhodných otázek</div><h1>Kvíz Vyprávěj</h1><p class="lead">Vyber obtížnost. Každá hra náhodně vybere 15 otázek z většího zásobníku.</p><div style="margin-bottom:25px"><button class="btn" onclick="makeQuiz('easy')">Lehký</button><button class="btn dark" onclick="makeQuiz('medium')">Střední</button><button class="btn" onclick="makeQuiz('hard')">Těžký</button></div><div id="quizRoot"><div class="quiz"><h2>Vyber obtížnost</h2><p>Potom začne patnáctikolová hra.</p></div></div></div></section></main><footer><div class="container small">Kvíz používá náhodný výběr otázek.</div></footer><script src="js/main.js"></script><script src="js/quiz.js"></script></body></html>
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kvíz · Vyprávěj</title><link rel="stylesheet" href="css/style.css"></head><body>
+<nav class="nav"><div class="navin"><a class="brand" href="index.html">VYPRÁVĚJ<small>NEOFICIÁLNÍ FANOUŠKOVSKÝ WEB</small></a>
+<a href="serial.html">Seriál</a><a href="rady.html">Řady</a><a href="epizody.html">Epizody</a><a href="postavy.html">Postavy</a><a href="timeline.html">Časová osa</a><a href="zajimavosti.html">Zajímavosti</a><a href="bonusy.html">Bonusy</a><a href="galerie.html">Galerie</a><a href="kviz.html">Kvíz</a>
+</div></nav><main><section class="wrap"><span class="sectiontag">Kvíz</span><h1 class="title">Jak dobře znáš Vyprávěj?</h1>
+<p class="lead">Každá hra náhodně vybere 15 otázek. Vyber odpověď a pokračuj.</p>
+<div id="quiz" class="paper"></div></section></main><footer><b>VYPRÁVĚJ · neoficiální fanouškovský web</b><p>Web není oficiálním webem České televize.</p></footer>
+<script>
+const Q=[
+["Kdy začíná příběh seriálu?","1964",["1964","1958","1972","1989"]],
+["Kdo hraje Karla Dvořáka?","Roman Vojtek",["Roman Vojtek","Svatopluk Skopal","David Prachař","Jaromír Nosek"]],
+["Kdo hraje Evu Dvořákovou?","Andrea Kerestešová",["Andrea Kerestešová","Veronika Freimanová","Lucie Štěpánková","Hana Vagnerová"]],
+["Kolik dílů má I. řada?","26",["16","22","26","30"]],
+["Jak se jmenuje první díl?","Od začátku",["Od začátku","Svatba","21. srpen","Shledání"]],
+["Co připomíná díl 21. srpen?","Invazi vojsk v roce 1968",["Invazi vojsk v roce 1968","Sametovou revoluci","Rozdělení republiky","Kuponovou privatizaci"]],
+["Kdo seriál režíroval?","Biser A. Arichtev",["Biser A. Arichtev","Jan Hřebejk","Dušan Klein","Jiří Strach"]],
+["Kdo je vedoucí scenárista?","Rudolf Merkner",["Rudolf Merkner","David Solař","Michal Hrůza","Filip Bobiňski"]],
+["Kdo hraje Josefa Dvořáka?","Svatopluk Skopal",["Svatopluk Skopal","Roman Vojtek","Tomáš Töpfer","Jiří Štěpnička"]],
+["Kdo hraje Tondou Sovu?","Jaromír Nosek",["Jaromír Nosek","David Kraus","Ján Jackuliak","Ondřej Veselý"]],
+["Jak se jmenuje první díl IV. řady?","Shledání",["Shledání","Sametová revoluce","Miss","Havel na Hrad!"]],
+["Co řeší díl Rozdělení republiky?","Rozdělení Československa",["Rozdělení Československa","Invazi 1968","Volby 1990","Expo 1967"]],
+["Jak se jmenuje závěrečný díl?","Něco končí, jiné začíná",["Něco končí, jiné začíná","Konec vyprávění","Poslední svatba","Nový začátek"]],
+["Kdo složil hudbu?","David Solař",["David Solař","Michal Hrůza","Rudolf Merkner","Emil Pawinger"]],
+["Kdo vytvořil titulní píseň?","Michal Hrůza",["Michal Hrůza","David Solař","Roman Vojtek","Biser A. Arichtev"]],
+["Kolik dílů má II. řada?","16",["16","22","26","18"]],
+["Kolik dílů má V. řada?","22",["16","22","24","26"]],
+["Kdo hraje Janu Dvořákovou?","Veronika Freimanová",["Veronika Freimanová","Veronika Žilková","Mahulena Bočanová","Nina Divíšková"]],
+["Kdo hraje babičku Bětu?","Nina Divíšková",["Nina Divíšková","Veronika Freimanová","Hana Vagnerová","Milka Minichová"]],
+["Který díl se věnuje Sametové revoluci?","Sametová revoluce",["Sametová revoluce","21. srpen","DDR","Fitness"]],
+["Kdo hraje Lucku Francovou?","Lucie Štěpánková / Eliška Křenková / Eliška Zbranková",["Lucie Štěpánková / Eliška Křenková / Eliška Zbranková","Andrea Kerestešová","Nina Divíšková","Veronika Freimanová"]]
+];
+let game=[],pos=0,score=0;
+function start(){game=[...Q].sort(()=>Math.random()-.5).slice(0,15);pos=0;score=0;draw()}
+function draw(){const q=game[pos];document.getElementById("quiz").innerHTML='<div class="pill">OTÁZKA '+(pos+1)+' / 15</div><h2>'+q[0]+'</h2>'+q[2].map((a,i)=>'<button class="btn" style="display:block;width:100%;text-align:left;margin:10px 0" data-i="'+i+'">'+a+'</button>').join('');
+document.querySelectorAll("#quiz button").forEach((b,i)=>b.onclick=()=>answer(i))}
+function answer(i){if(game[pos][2][i]===game[pos][1])score++;pos++;if(pos<15)draw();else finish()}
+function finish(){let text=score>=13?"🏆 Výborně!":score>=9?"👏 Dobrá práce!":"📺 Dej si ještě jedno kolo!";document.getElementById("quiz").innerHTML='<h2>'+text+'</h2><p>Skóre: <b>'+score+' / 15</b></p><button class="btn" onclick="start()">Hrát znovu</button>'}
+start();
+</script></body></html>
