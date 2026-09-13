@@ -3,14 +3,672 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Můj web</title>
+
+    <title>Vyprávěj.fun | Fanpage seriálu Vyprávěj</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3ead8;
+            color: #2b2118;
+        }
+
+        /* ===== MENU ===== */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(35, 28, 22, 0.96);
+            z-index: 1000;
+            border-bottom: 3px solid #c49a55;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+        }
+
+        .logo {
+            color: #e3bb73;
+            font-family: Georgia, serif;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .menu {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            color: #e3bb73;
+        }
+
+        /* ===== HERO ===== */
+
+        .hero {
+            min-height: 720px;
+            padding-top: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    rgba(35, 27, 20, 0.72),
+                    rgba(35, 27, 20, 0.82)
+                ),
+                radial-gradient(
+                    circle at center,
+                    #a98255 0%,
+                    #584332 45%,
+                    #241c17 100%
+                );
+
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            padding: 40px 25px;
+        }
+
+        .hero-small {
+            color: #e3bb73;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(60px, 10vw, 120px);
+            line-height: 0.9;
+            margin-bottom: 25px;
+            color: #f0d39a;
+            text-shadow: 4px 4px 0 #34261c;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            font-size: 20px;
+            line-height: 1.7;
+            color: #f4eadb;
+        }
+
+        .hero-button {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 15px 30px;
+            background: #c49a55;
+            color: #241c17;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .hero-button:hover {
+            background: #e3bb73;
+            transform: translateY(-2px);
+        }
+
+        /* ===== OBSAH ===== */
+
+        section {
+            padding: 90px 25px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: #665748;
+            line-height: 1.7;
+        }
+
+        /* ===== O SERIÁLU ===== */
+
+        .about {
+            background: #f3ead8;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-box {
+            background: #fffaf1;
+            padding: 35px;
+            border-left: 5px solid #c49a55;
+            box-shadow: 0 8px 25px rgba(50, 35, 20, 0.08);
+        }
+
+        .about-box h3 {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .about-box p {
+            line-height: 1.8;
+            color: #5d4d3e;
+        }
+
+        /* ===== KARTY ===== */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: #fffaf1;
+            padding: 35px 25px;
+            text-align: center;
+            border-top: 4px solid #c49a55;
+            box-shadow: 0 8px 25px rgba(50, 35, 20, 0.08);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-number {
+            font-family: Georgia, serif;
+            font-size: 50px;
+            color: #b3884c;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #665748;
+            line-height: 1.6;
+        }
+
+        /* ===== CASOVA OSA ===== */
+
+        .timeline-section {
+            background: #30261e;
+            color: white;
+        }
+
+        .timeline-section .section-subtitle {
+            color: #d6c8b5;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: auto;
+            border-left: 3px solid #c49a55;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 45px 40px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 4px;
+            width: 17px;
+            height: 17px;
+            background: #c49a55;
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            color: #e3bb73;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item h3 {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            color: #d6c8b5;
+            line-height: 1.6;
+        }
+
+        /* ===== CTA ===== */
+
+        .cta {
+            text-align: center;
+            background: #c49a55;
+            color: #241c17;
+        }
+
+        .cta h2 {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            margin-bottom: 25px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #30261e;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        /* ===== PATIČKA ===== */
+
+        footer {
+            background: #211a15;
+            color: #bfb1a0;
+            text-align: center;
+            padding: 35px 20px;
+            line-height: 1.7;
+        }
+
+        footer strong {
+            color: #e3bb73;
+        }
+
+        /* ===== MOBIL ===== */
+
+        @media (max-width: 800px) {
+
+            .menu {
+                gap: 12px;
+            }
+
+            .menu a {
+                font-size: 12px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            nav {
+                padding: 0 12px;
+            }
+
+            .about-grid,
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 650px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .section-title {
+                font-size: 34px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Vítej na mém webu!</h1>
+<header>
+    <nav>
+        <a href="#" class="logo">vypravej.fun</a>
 
-    <p>Tohle je moje první webová stránka.</p>
+        <ul class="menu">
+            <li><a href="#o-serialu">O seriálu</a></li>
+            <li><a href="#dily">Díly</a></li>
+            <li><a href="#casova-osa">Časová osa</a></li>
+            <li><a href="#zajimavosti">Zajímavosti</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- ÚVOD -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                Fanouškovská stránka
+            </div>
+
+            <h1>Vyprávěj</h1>
+
+            <p>
+                Vítej na fanouškovské stránce jednoho z
+                nejoblíbenějších českých seriálů.
+                Vrať se s námi do minulosti a připomeň si
+                příběhy rodiny Dvořákových.
+            </p>
+
+            <a href="#o-serialu" class="hero-button">
+                Objevovat seriál ↓
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- O SERIÁLU -->
+
+    <section id="o-serialu" class="about">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                O seriálu
+            </h2>
+
+            <p class="section-subtitle">
+                Vyprávěj je český rodinný seriál, který prostřednictvím
+                života jedné rodiny zachycuje několik desetiletí české
+                historie.
+            </p>
+
+            <div class="about-grid">
+
+                <div class="about-box">
+
+                    <h3>Rodina Dvořákových</h3>
+
+                    <p>
+                        Seriál sleduje život rodiny Dvořákových,
+                        jejich vztahy, radosti, starosti a každodenní
+                        život v průběhu několika desetiletí.
+                    </p>
+
+                </div>
+
+                <div class="about-box">
+
+                    <h3>Československo</h3>
+
+                    <p>
+                        Příběhy postav jsou zasazeny do skutečných
+                        historických událostí a společenských změn,
+                        které ovlivňovaly život lidí v tehdejším
+                        Československu.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DÍLY -->
+
+    <section id="dily">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Seriál
+            </h2>
+
+            <p class="section-subtitle">
+                Prozkoumej jednotlivé části příběhu a vrať se
+                k oblíbeným okamžikům seriálu.
+            </p>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-number">01</div>
+                    <h3>1. řada</h3>
+                    <p>
+                        Začátek příběhu rodiny Dvořákových
+                        a první roky jejich společného života.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">02</div>
+                    <h3>2. řada</h3>
+                    <p>
+                        Příběh pokračuje a jednotlivé postavy
+                        řeší nové životní situace.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">03</div>
+                    <h3>3. řada</h3>
+                    <p>
+                        Další kapitola života rodiny
+                        a období plné změn.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ČASOVÁ OSA -->
+
+    <section id="casova-osa" class="timeline-section">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Časová osa
+            </h2>
+
+            <p class="section-subtitle">
+                Seriál nás provází důležitými obdobími československých
+                a českých dějin.
+            </p>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-year">1964</div>
+                    <h3>Začátek příběhu</h3>
+                    <p>
+                        Začíná příběh rodiny Dvořákových.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">1968</div>
+                    <h3>Rok plný změn</h3>
+                    <p>
+                        Společenské a historické události
+                        výrazně ovlivňují život postav.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">70. léta</div>
+                    <h3>Nová etapa života</h3>
+                    <p>
+                        Rodina prochází dalšími životními
+                        změnami a každodenními starostmi.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">80. léta</div>
+                    <h3>Další generace</h3>
+                    <p>
+                        Příběh se postupně přesouvá
+                        k další generaci rodiny.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">1989</div>
+                    <h3>Sametová revoluce</h3>
+                    <p>
+                        Přichází zásadní společenský zlom
+                        a začíná nová kapitola.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ZAJÍMAVOSTI -->
+
+    <section id="zajimavosti">
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Zajímavosti
+            </h2>
+
+            <p class="section-subtitle">
+                Tohle je teprve začátek. Na web postupně přidáme
+                informace o postavách, hercích, natáčení,
+                zajímavostech a jednotlivých epizodách.
+            </p>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-number">★</div>
+                    <h3>Postavy</h3>
+                    <p>
+                        Přehled hlavních i vedlejších postav
+                        a jejich příběhů.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">▶</div>
+                    <h3>Epizody</h3>
+                    <p>
+                        Přehled jednotlivých epizod
+                        a jejich děje.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-number">?</div>
+                    <h3>Zajímavosti</h3>
+                    <p>
+                        Fakta ze zákulisí, natáčení,
+                        lokace a další zajímavosti.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ZÁVĚR -->
+
+    <section class="cta">
+
+        <h2>Vyprávěj s námi</h2>
+
+        <p>
+            Fanouškovský web seriálu Vyprávěj
+        </p>
+
+        <a href="#" class="cta-button">
+            Zpět nahoru ↑
+        </a>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        <strong>vypravej.fun</strong>
+    </p>
+
+    <p>
+        Neoficiální fanouškovská stránka seriálu Vyprávěj.
+    </p>
+
+</footer>
 
 </body>
 </html>
